@@ -1,9 +1,9 @@
 #!/bin/bash
-
+./colors.sh
 PACKAGES=(sudo openssh-server)
 
 install_packages() {
-	echo "APT update & upgrade"
+	echo -en ${RED}${BGGREEN}"APT update & upgrade"
 	apt update && apt upgrade
 	for x in ${PACKAGES[@]}
 	do
