@@ -47,11 +47,11 @@ BGDEF='\033[49m'      #  ${BGDEF}
 PACKAGES=(sudo openssh-server)
 
 install_packages() {
-	echo -en ${RED}${BGGREEN}"APT update & upgrade"
+	echo -en "${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
 	apt update && apt upgrade
 	for x in ${PACKAGES[@]}
 	do
-		echo "APT install $x"
+		echo -e "################${GREEN}APT install $x${NORMAL}################\n"
 		apt install "$x"
 	done
 }
