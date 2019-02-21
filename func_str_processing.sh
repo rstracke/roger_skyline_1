@@ -45,4 +45,3 @@ set_field_value(){
 replace_field(){
 	sed "s/$1/$2/g"
 }
- comment test test
