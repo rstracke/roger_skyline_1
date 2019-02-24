@@ -34,28 +34,26 @@ case $retval in
 				Your IP: $IP
 				Netmask: $NETMASK
 				IFACE: $IFACE")
-				call_msg_box "$msg"
+				call_msgbox "$msg"
 				sleep 1;;
 			4)
 				call_security_menu;;
 			5)
 				cp res/upd.sh /root/scripts/
-				cp res/cron_check.sh /root/scripts/
+				cp res/cron_check.sh /root/scripts/;;
 					
 			255)
 				echo "ESC pressed";;
 		esac
 		call_main_menu;;
 	1)
-		echo "No"
 		clear;;
 	255)
-		echo "ESC pressed"
 		clear;;
 esac
 }
 
-call_msg_box() {
-	dialog --title 'Done' --infobox "$1" 8 40
+call_msgbox() {
+	dialog --title 'Done' --msgbox "$1" 8 40
 	sleep 1
 }

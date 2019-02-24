@@ -20,24 +20,32 @@ case $retval in
 		case $choise in
 			1)
 				set_current_port 22
-				call_msg_box "SSH Port is 22";;
+				call_infobox "SSH Port is 22";;
 			2)
 				call_menu_set_port "Enter SSH port number:"
 				set_current_port $user_input;;
 			3)
-				call_menu_set "RootLogIn"
-				set_permission_root_login $user_input;;
+				call_radio_menu "RootLogIn" ""
+				set_permission_root_login $result
+				call_infobox "Root LogIn $result";;
 			4)
-				call_menu_set "PasswordAuthentication"
-				set_password_autentication $user_input;;
+				call_radio_menu "PasswordAuthentication"
+				check_authorized_keys
+				if [ $res -eq 0 ] && [ "$result" == "no" ]
+				then
+					call_msgbox
+				else
+					set_password_authentication $result
+					call_infobox "Password Athentication $result"
+				fi;;
 		esac
-		call_msg_box "Restarting SSH"
+		call_infobox "Restarting SSH"
 		sleep 1
 		service ssh restart
-		call_msg_box "Restarting network"
+		call_infobox "Restarting network"
 		sleep 1
 		service networking restart
-		call_msg_box "Complete"
+		call_infobox "Complete"
 		sleep 1			
 		call_ssh_menu;;
 	1);;
@@ -57,31 +65,46 @@ case $retval in
 		then
 			call_menu_set_port "Enter SSH port number:" "WRONG Port! Try Again"	
 		fi
-		call_msg_box "SSH Port is $user_input";;
+		call_info_box "SSH Port is $user_input";;
 	1);;
 	255);;
 esac
 }
 
-call_menu_set() {
-  $DIALOG --title "$2 Configure $1 option" \
-	 --inputbox "Enable $1 yes/no" 8 40 2> $tempfile
+call_radio_menu() {
+  $DIALOG --backtitle "$2 Configure $1 option" \
+	 --radiolist "Enable/Diasble $1" 10 40 2\
+	 1 "Enable" on \
+	 2 "Disable" off 2>$tempfile
 retval=$?
 user_input=`cat $tempfile`
+
 case $retval in
 	0)
-		if ! [[ $user_input =~ ^(yes|no)$ ]]
-		then
-			call_menu_set $1 "WRONG option, Try again."
-		fi
-		call_msg_box "$1 option is set to $user_input";;
+		case $user_input in
+			1)result="yes";;
+			2)result="no";;
+		esac;;
 	1);;
 	255);;
 esac
 }
 
-call_msg_box() {
-	dialog --title 'Done' --infobox "$1" 5 30
+call_infobox() {
+	$DIALOG --title 'Done' \
+	--infobox "$1" 5 30
 	sleep 1
 }
 
+call_msgbox() {
+	$DIALOG --title 'WARNING!!!' \
+	--msgbox "It seems you have no authorized keys in ~/.ssh directory. Perform ssh-keygen on your client. Then copy your id_rsa using ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>" 10 40
+}
+
+check_authorized_keys() {
+	res=0
+	if (find / -iname "authorized_keys" | grep "authorized_keys")
+	then
+		res=1
+	fi
+}

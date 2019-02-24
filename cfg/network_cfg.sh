@@ -1,6 +1,6 @@
 #!/bin/bash
 source ./utils/str_processing.sh
-IP="192.168.99.3"
+IP="192.168.99.2"
 NETMASK="255.255.255.252"
 IFACE="enp0s8"
 CONTENT="\n

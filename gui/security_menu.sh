@@ -9,9 +9,7 @@ call_security_menu(){
 $DIALOG --title "Set Security options"  --clear \
 	--menu "Select an option:" 20 50 4 \
 	"1" "Set Firewall rules" \
-	"2" "Fail2Ban Settings" \
-	"3" "3" \
-	"4" "4" 2> $tempfile
+	"2" "Fail2Ban Settings" 2> $tempfile
 retval=$?
 choise=`cat $tempfile`
 
@@ -20,17 +18,11 @@ case $retval in
 		case $choise in
 			1)
 				iptables_set_rules;;
-			2)
-				call_menu_set_port "Enter SSH port number:"
-				set_current_port $user_input;;				
-			3)
-				call_menu_set "RootLogIn"
-				set_permission_root_login $user_input;;
-			4)
-				call_menu_set "PasswordAuthentication"
-				set_password_autentication $user_input;;
+			2);;				
+			3);;
+			4);;
 		esac
-		call_ssh_menu;;
+		call_security_menu;;
 	1);;
 	255);;
 esac

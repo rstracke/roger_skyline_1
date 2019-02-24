@@ -24,7 +24,7 @@ iptables_set_rules() {
 	get_current_port
 	#iptables -A INPUT -i lo -j ACCEPT
 	#iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-	#iptables -A INPUT -p tcp -m tcp --dport 777 -j ACCEPT
+	#iptables -A INPUT -p tcp -m tcp --dport $CURRENT_PORT -j ACCEPT
 	#iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 	#iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 	#iptables -A INPUT -p icmp -j ACCEPT
@@ -32,36 +32,36 @@ iptables_set_rules() {
 	#iptables -A FORWARD -m recent --rcheck --seconds 86400 --name portscan --mask 255.255.255.255 --rsource -j DROP
 	#iptables -A OUTPUT -p icmp -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
 
-	#iptables -F
-	#iptables -X
-	#iptables -t nat -F
-	#iptables -t nat -X
-	#iptables -t mangle -F
-	#iptables -t mangle -X
-	#iptables -P INPUT DROP
-	#iptables -P OUTPUT DROP
-	#iptables -P FORWARD DROP
-	#iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-	#iptables -A INPUT -p tcp --dport 777 -j DROP
-	#ptables -A INPUT -p tcp -i enp0s8 --dport 80 -j ACCEPT
-	#ptables -A INPUT -p tcp -i enp0s8 --dport 443 -j ACCEPT
-	#ptables -A OUTPUT -m conntrack ! --ctstate INVALID -j ACCEPT
-	#ptables -I INPUT -i lo -j ACCEPT
-	#ptables -A INPUT -j LOG
-	#ptables -A FORWARD -j LOG
-	#ptables -I INPUT -p tcp --dport 80 -m connlimit --connlimit-above 10 --connlimit-mask 20 -j DROP
-	#ptables -A INPUT -p TCP -m state --state NEW -m recent --set
-	#ptables -A INPUT -p TCP -m state --state NEW -m recent --update --seconds 1 --hitcount 10 -j DROP
+	iptables -F
+	iptables -X
+	iptables -t nat -F
+	iptables -t nat -X
+	iptables -t mangle -F
+	iptables -t mangle -X
+	iptables -P INPUT DROP
+	iptables -P OUTPUT DROP
+	iptables -P FORWARD DROP
+	iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+	iptables -A INPUT -p tcp --dport $CURRENT_PORT -j ACCEPT
+	iptables -A INPUT -p tcp -i enp0s8 --dport 80 -j ACCEPT
+	iptables -A INPUT -p tcp -i enp0s8 --dport 443 -j ACCEPT
+	iptables -A OUTPUT -m conntrack ! --ctstate INVALID -j ACCEPT
+	iptables -I INPUT -i lo -j ACCEPT
+	iptables -A INPUT -j LOG
+	iptables -A FORWARD -j LOG
+	iptables -I INPUT -p tcp --dport 80 -m connlimit --connlimit-above 10 --connlimit-mask 20 -j DROP
+	iptables -A INPUT -p TCP -m state --state NEW -m recent --set
+	iptables -A INPUT -p TCP -m state --state NEW -m recent --update --seconds 1 --hitcount 10 -j DROP
 	
-	echo -en "${RED}Protection against INVALID PACKETS${NORMAL}\n"
-	iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Blocking NOT SYN new PACKETS${NORMAL}\n"
-	iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Blocking flood by SYN${NORMAL}\n"
-	iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
-	echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Protection against INVALID PACKETS${NORMAL}\n"
+	#iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Blocking NOT SYN new PACKETS${NORMAL}\n"
+	#iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Blocking flood by SYN${NORMAL}\n"
+	#iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
+	#echo -en "${GREEN}\u2713 SET\n"
 	echo -en "${RED}Blocking bogus tcp${NORMAL}\n"
 	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
 	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN FIN,SYN -j DROP 
@@ -88,30 +88,31 @@ iptables_set_rules() {
 	iptables -t mangle -A PREROUTING -s 240.0.0.0/5 -j DROP 
 	iptables -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP	
 	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Ping of Death protection${NORMAL}\n"
-	iptables -t mangle -A PREROUTING -p icmp -j DROP
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Connection attack protection${NORMAL}\n"
-	iptables -A INPUT -p tcp -m connlimit --connlimit-above 80 -j REJECT --reject-with tcp-reset
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Limit for TCP connection per second${NORMAL}\n"
-	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT 
-	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Limit for TCP RST packets${NORMAL}\n"
-	iptables -A INPUT -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT 
-	iptables -A INPUT -p tcp --tcp-flags RST RST -j DROP	
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}SSH Brute-force protection${NORMAL}\n"
-	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set	
-	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j DROP  
-	echo -en "${GREEN}\u2713 SET\n"
-	echo -en "${RED}Port scanning protection${NORMAL}\n"
-	iptables -N port-scanning 
-	iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN 
-	iptables -A port-scanning -j DROP	
-	echo -en "${GREEN}\u2713 SET\n"
 	
+	#echo -en "${RED}Ping of Death protection${NORMAL}\n"
+	#iptables -t mangle -A PREROUTING -p icmp -j DROP
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Connection attack protection${NORMAL}\n"
+	#iptables -A INPUT -p tcp -m connlimit --connlimit-above 80 -j REJECT --reject-with tcp-reset
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Limit for TCP connection per second${NORMAL}\n"
+	#iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT 
+	#iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Limit for TCP RST packets${NORMAL}\n"
+	#iptables -A INPUT -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT 
+	#iptables -A INPUT -p tcp --tcp-flags RST RST -j DROP	
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}SSH Brute-force protection${NORMAL}\n"
+	#iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set	
+	#iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j DROP  
+	#echo -en "${GREEN}\u2713 SET\n"
+	#echo -en "${RED}Port scanning protection${NORMAL}\n"
+	#iptables -N port-scanning 
+	#iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN 
+	#iptables -A port-scanning -j DROP	
+	#echo -en "${GREEN}\u2713 SET\n"
+	sleep 3
 	netfilter-persistent save
 	netfilter-persistent reload
 }
