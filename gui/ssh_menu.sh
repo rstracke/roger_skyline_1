@@ -23,17 +23,26 @@ case $retval in
 				call_infobox "SSH Port is 22";;
 			2)
 				call_menu_set_port "Enter SSH port number:"
-				set_current_port $user_input;;
+				set_current_port $user_input
+				call_infobox "SSH Port is $user_input";;
 			3)
 				call_radio_menu "RootLogIn" ""
-				set_permission_root_login $result
-				call_infobox "Root LogIn $result";;
+				if [ "$result" == "-" ]
+				then
+					call_infobox "Root LogIn not changed"
+				else
+					set_permission_root_login $result
+					call_infobox "Root LogIn $result"
+				fi;;
 			4)
 				call_radio_menu "PasswordAuthentication"
 				check_authorized_keys
 				if [ $res -eq 0 ] && [ "$result" == "no" ]
 				then
 					call_msgbox
+				elif [ "$result" == "-" ]
+				then
+					call_infobox "Root LogIn not changed"
 				else
 					set_password_authentication $result
 					call_infobox "Password Athentication $result"
@@ -77,8 +86,8 @@ case $retval in
 			1)result="yes";;
 			2)result="no";;
 		esac;;
-	1);;
-	255);;
+	1)result="-";;
+	255)result="-";;
 esac
 }
 
