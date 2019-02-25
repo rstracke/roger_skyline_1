@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./cfg/ssh_cfg.sh
+source ./cfg/admin_cfg.sh
 
 tempfile=`mktemp 2>/dev/null` || tempfile=/tmp/test$$
 trap "rm -f $tempfile" 0 1 2 5 15
@@ -38,18 +38,10 @@ case $retval in
 					set_password_authentication $result
 					call_infobox "Password Athentication $result"
 				fi;;
-		esac
-		call_infobox "Restarting SSH"
-		sleep 1
-		service ssh restart
-		call_infobox "Restarting network"
-		sleep 1
-		service networking restart
-		call_infobox "Complete"
-		sleep 1			
+		esac		
 		call_ssh_menu;;
-	1);;
-	255);;
+	1)restart_ssh_network;;
+	255)restart_ssh_network;;
 esac
 }
 
@@ -101,10 +93,13 @@ call_msgbox() {
 	--msgbox "It seems you have no authorized keys in ~/.ssh directory. Perform ssh-keygen on your client. Then copy your id_rsa using ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>" 10 40
 }
 
-check_authorized_keys() {
-	res=0
-	if (find / -iname "authorized_keys" | grep "authorized_keys")
-	then
-		res=1
-	fi
+restart_ssh_network() {
+	call_infobox "Restarting SSH"
+	sleep 1
+	service ssh restart
+	call_infobox "Restarting network"
+	sleep 1
+	service networking restart
+	call_infobox "Complete"
+	sleep 1	
 }
