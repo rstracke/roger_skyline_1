@@ -1,7 +1,7 @@
 source ./utils/colors.sh
 source ./utils/str_processing.sh
 #==========================UPDATE, UPGRADE, INSTALL================================================
-PACKAGES=(sudo openssh-server knockd fail2ban nginx iptables-persistent)
+PACKAGES=(sudo openssh-server fail2ban nginx iptables-persistent net-tools)
 
 update_packages() {
 	echo -en "\n${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
