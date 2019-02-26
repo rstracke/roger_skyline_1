@@ -39,7 +39,7 @@ case $retval in
 				check_authorized_keys
 				if [ $res -eq 0 ] && [ "$result" == "no" ]
 				then
-					call_msgbox
+					call_SSH_msgbox
 				elif [ "$result" == "-" ]
 				then
 					call_infobox "Root LogIn not changed"
@@ -66,7 +66,7 @@ case $retval in
 		then
 			call_menu_set_port "Enter SSH port number:" "WRONG Port! Try Again"	
 		fi
-		call_info_box "SSH Port is $user_input";;
+		call_infobox "SSH Port is $user_input";;
 	1);;
 	255);;
 esac
@@ -97,9 +97,9 @@ call_infobox() {
 	sleep 1
 }
 
-call_msgbox() {
+call_SSH_msgbox() {
 	$DIALOG --title 'WARNING!!!' \
-	--msgbox "It seems you have no authorized keys in ~/.ssh directory. Perform ssh-keygen on your client. Then copy your id_rsa using ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>" 10 40
+	--msgbox "It seems you have no authorized keys in ~/.ssh directory. Perform ssh-keygen on your client. Then copy your id_rsa using ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>" 10 50
 }
 
 restart_ssh_network() {
