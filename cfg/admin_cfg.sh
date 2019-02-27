@@ -141,6 +141,7 @@ copy_scripts() {
 	cp ./res/update_script.sh /root/scripts/
 	cp ./res/cron_check.sh /root/scripts/
 	cp ./res/aliases /etc/aliases
+	cp ./res/html	/var/www/html
 }
 
 to_crontab() {
