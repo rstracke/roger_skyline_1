@@ -17,7 +17,8 @@ $DIALOG --clear --title "Roger configure"  \
 	"3" "Configure SSH" \
 	"4" "Configure Network" \
 	"5" "Configure firewall"	\
-	"6" "Cron configure"  2> $tempfile
+	"6" "Cron configure" \
+	"7" "SSL setup" 2> $tempfile
 retval=$?
 choise=`cat $tempfile`
 
@@ -51,7 +52,9 @@ case $retval in
 				call_security_menu;;
 			6)
 				copy_scripts
-				to_crontab;;	
+				to_crontab;;
+			7)
+				ssl_install;;	
 			255)
 				echo "ESC pressed";;
 		esac
