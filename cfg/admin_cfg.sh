@@ -160,21 +160,14 @@ ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 deploy() {
 	echo -en "################${GREEN}Network configure${NORMAL}################\n"
 	configure_network
-	echo -en "################${GREEN}System will restart in 5 seconds to apply network settings${NORMAL}################\n"
-	sleep 5
-	reboot
-	out=1
-	while [ $out -eq 1 ]
-	do
-		check_authorized_keys
-		if [ $res -eq 0 ]
-		then
-			echo -en "It seems you have no authorized keys in ${BOLD}${GREEN}~/.ssh ${NORMAL} directory.\n Perform ssh-keygen on your client. Then copy your id_rsa using ${BOLD}${GREEN}ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>${NORMAL}"
-			read -p "Press any key when done"
-			else
-			out=0	
-		fi
-	done
+	check_authorized_keys
+	if [ $res -eq 0 ]
+	then
+		echo -en "It seems you have no authorized keys in ${BOLD}${GREEN}~/.ssh ${NORMAL} directory.\n Perform ssh-keygen on your client. Then copy your id_rsa using ${BOLD}${GREEN}ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>${NORMAL}"
+		read -p "Press any key. And restart your machine"
+		exit
+	fi
+
 
 	update_packages
 	install_packages
