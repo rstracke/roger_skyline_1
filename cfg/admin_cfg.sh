@@ -157,8 +157,20 @@ cp res/default /etc/nginx/sites-enabled/default
 }
 #==================================================================================================
 deploy() {
-	echo -en "################${GREEN}Network configure${NORMAL}################\n"
-	configure_network
+
+	if !( grep "toggle" tmp )
+	then
+		echo -en "################${GREEN}Network configure${NORMAL}################\n"
+		configure_network
+		echo "toggle" > tmp
+		PATH=$(pwd)
+		cp /root/.bashrc /root/.bashrctmp
+		echo -en "source ${PATH}/admin_cfg.sh\n
+					deploy" >>/root/.bashrc
+
+		reboot
+	fi
+	cp /root/.bashrctmp /root/.bashrc
 	check_authorized_keys
 	if [ $res -eq 0 ]
 	then
@@ -166,8 +178,6 @@ deploy() {
 		read -p "Press any key. And restart your machine"
 		exit
 	fi
-
-
 	update_packages
 	install_packages
 	echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
