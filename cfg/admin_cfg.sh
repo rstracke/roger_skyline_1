@@ -119,7 +119,7 @@ iptables_set_rules() {
 	ufw allow $HTTP
 	usw allow $HTTPS
 	cp ./res/before.rules /etc/ufw/
-	cp ./res/portsentry /etc/portsentry/
+	cp ./res/portsentry.conf /etc/portsentry/
 
 }
 #==================================================================================================
