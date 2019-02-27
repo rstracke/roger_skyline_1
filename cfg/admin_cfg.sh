@@ -111,25 +111,28 @@ check_authorized_keys() {
 #==================================================================================================
 
 #==========================FIREWALL SETTINGS=======================================================
+HTTP="80"
+HTTPS="443"
 iptables_set_rules() {
-	iptables-restore < res/iptables
-	iptables-save > /etc/iptables/rules.v4
-	iptables-save > /etc/iptables/rules.v6
-	service iptables-persistent restart
+	get_current_port
+	ufw allow $CURRENT_PORT
+	ufw allow $HTTP
+	usw allow $HTTPS
+	cp ./res/before.rules /etc/ufw/
+	cp ./res/portsentry /etc/portsentry/
+
 }
 #==================================================================================================
 
 #==========================DDoS PROTECTION=========================================================
-#fail2ban_cofigure() {
 
-#}
 #==================================================================================================
 
 #==========================SET SCHEDULE============================================================
 copy_scripts() {
 	mkdir /root/scripts
-	cp res/update_script.sh /root/scripts/
-	cp res/cron_check.sh /root/scripts/
+	cp ./res/update_script.sh /root/scripts/
+	cp ./res/cron_check.sh /root/scripts/
 }
 
 to_crontab() {
