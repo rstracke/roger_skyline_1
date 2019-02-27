@@ -158,14 +158,14 @@ cp res/default /etc/nginx/sites-enabled/default
 #==================================================================================================
 deploy() {
 
-	if !( grep "toggle" tmp )
+	if !(grep "toggle" tmp)
 	then
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
 		echo "toggle" > tmp
-		PATH=$(pwd)
+		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source ${PATH}/admin_cfg.sh\n
+		echo -en "source ${PTH}/admin_cfg.sh\n
 					deploy" >>/root/.bashrc
 
 		reboot
