@@ -25,6 +25,8 @@ choise=`cat $tempfile`
 case $retval in
 	0)
 		case $choise in
+			0)
+				deploy;;
 			1)
 				update_packages
 				install_packages;;

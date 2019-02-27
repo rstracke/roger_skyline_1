@@ -1,7 +1,7 @@
 source ./utils/colors.sh
 source ./utils/str_processing.sh
 #==========================UPDATE, UPGRADE, INSTALL================================================
-PACKAGES=(sudo openssh-server fail2ban nginx iptables-persistent net-tools)
+PACKAGES=(sudo openssh-server nginx iptables-persistent net-tools ufw portsentry)
 
 update_packages() {
 	echo -en "\n${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
@@ -163,3 +163,37 @@ ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 
 }
 #==================================================================================================
+deploy() {
+	out=1
+	while [ $out -eq 1 ]
+	do
+		check_authorized_keys
+		if [ $res -eq 0 ]
+		then
+			echo -en "It seems you have no authorized keys in ${BOLD}${GREEN}~/.ssh ${NORMAL} directory.\n Perform ssh-keygen on your client. Then copy your id_rsa using ${BOLD}${GREEN}ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>${NORMAL}"
+			read -p "Press any key when done"
+			else
+			out=0	
+		fi
+	done
+
+	update_packages
+	install_packages
+	echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
+	sudo_setup victor
+	echo -en "################${GREEN}Network configure${NORMAL}################\n"
+	configure_network
+	echo -en "################${GREEN}Setting SSH Port up${NORMAL}################\n"
+	set_current_port 777
+	set_permission_root_login no
+	set_password_authentication no
+	echo -en "################${GREEN}Security settings${NORMAL}################\n"
+	iptables_set_rules
+	ddos_protect
+	portscan_protect
+	echo -en "################${GREEN}SCHEDULE Configure${NORMAL}################\n"
+	copy_scripts
+	to_crontab
+	echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
+	ssl_install
+}
