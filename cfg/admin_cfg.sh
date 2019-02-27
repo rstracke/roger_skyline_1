@@ -165,8 +165,7 @@ deploy() {
 		echo "toggle" > tmp
 		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source ${PTH}/cfg/admin_cfg.sh\n
-					deploy" >>/root/.bashrc
+		echo -en "source ${PTH}/cfg/admin_cfg.sh\ndeploy" >>/root/.bashrc
 		secs=$((5 * 60))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
