@@ -176,7 +176,8 @@ deploy() {
 		done
 		reboot
 	fi
-	cp /root/.bashrctmp /root/.bashrc
+	echo "#####################################################################"
+	#cp /root/.bashrctmp /root/.bashrc
 	check_authorized_keys
 	if [ $res -eq 0 ]
 	then
