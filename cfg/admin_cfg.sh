@@ -160,6 +160,9 @@ ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 deploy() {
 	echo -en "################${GREEN}Network configure${NORMAL}################\n"
 	configure_network
+	echo -en "################${GREEN}System will restart in 5 seconds to apply network settings${NORMAL}################\n"
+	sleep 5
+	reboot
 	out=1
 	while [ $out -eq 1 ]
 	do
