@@ -1,7 +1,7 @@
 source ./utils/colors.sh
 source ./utils/str_processing.sh
 #==========================UPDATE, UPGRADE, INSTALL================================================
-PACKAGES=(sudo openssh-server nginx iptables-persistent net-tools ufw portsentry)
+PACKAGES=(sudo openssh-server nginx net-tools ufw portsentry mailutils)
 
 update_packages() {
 	echo -en "\n${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
@@ -140,6 +140,7 @@ copy_scripts() {
 	mkdir /root/scripts
 	cp ./res/update_script.sh /root/scripts/
 	cp ./res/cron_check.sh /root/scripts/
+	cp ./res/aliases /etc/aliases
 }
 
 to_crontab() {
@@ -154,7 +155,6 @@ cp res/self-signed.conf /etc/nginx/snippets/self-signed.conf
 cp res/default /etc/nginx/sites-enabled/default
 ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
 ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
-
 }
 #==================================================================================================
 deploy() {
@@ -173,17 +173,22 @@ deploy() {
 	install_packages
 	echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
 	sudo_setup victor
+	sleep 5
 	echo -en "################${GREEN}Setting SSH Port up${NORMAL}################\n"
 	set_current_port 777
 	set_permission_root_login no
 	set_password_authentication no
+	sleep 5
 	echo -en "################${GREEN}Security settings${NORMAL}################\n"
 	iptables_set_rules
 	ddos_protect
 	portscan_protect
+	sleep 5
 	echo -en "################${GREEN}SCHEDULE Configure${NORMAL}################\n"
 	copy_scripts
 	to_crontab
+	sleep 5
 	echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
 	ssl_install
+	sleep 5
 }
