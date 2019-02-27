@@ -164,6 +164,8 @@ ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 }
 #==================================================================================================
 deploy() {
+	echo -en "################${GREEN}Network configure${NORMAL}################\n"
+	configure_network
 	out=1
 	while [ $out -eq 1 ]
 	do
@@ -181,8 +183,6 @@ deploy() {
 	install_packages
 	echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
 	sudo_setup victor
-	echo -en "################${GREEN}Network configure${NORMAL}################\n"
-	configure_network
 	echo -en "################${GREEN}Setting SSH Port up${NORMAL}################\n"
 	set_current_port 777
 	set_permission_root_login no
