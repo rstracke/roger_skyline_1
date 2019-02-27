@@ -19,9 +19,10 @@ case $retval in
 		case $choise in
 			1)
 				iptables_set_rules;;
-			2)echo "Fail2Ban";;				
-			3)echo "Portsentry";;
-			4);;
+			2)
+				ddos_protect;;				
+			3)
+				portscan_protect;;
 		esac
 		call_security_menu;;
 	1);;

@@ -117,15 +117,22 @@ iptables_set_rules() {
 	get_current_port
 	ufw allow $CURRENT_PORT
 	ufw allow $HTTP
-	usw allow $HTTPS
-	cp ./res/before.rules /etc/ufw/
-	cp ./res/portsentry.conf /etc/portsentry/
-
+	ufw allow $HTTPS	
 }
 #==================================================================================================
 
 #==========================DDoS PROTECTION=========================================================
+ddos_protect() {
+	cp ./res/before.rules /etc/ufw/
+	ufw reload
+}
+#==================================================================================================
 
+#==========================PORT SCAN PROTECTION====================================================
+portscan_protect() {
+	cp ./res/portsentry.conf /etc/portsentry/	
+	service portsentry restart	
+}
 #==================================================================================================
 
 #==========================SET SCHEDULE============================================================
