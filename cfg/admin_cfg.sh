@@ -154,8 +154,6 @@ ssl_install() {
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
 cp res/self-signed.conf /etc/nginx/snippets/self-signed.conf
 cp res/default /etc/nginx/sites-enabled/default
-ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
-ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 }
 #==================================================================================================
 deploy() {
