@@ -163,12 +163,12 @@ cp res/default /etc/nginx/sites-enabled/default
 #==================================================================================================
 deploy() {
 
-	if !(grep "1" /tmp/toggle)
+	if !(grep "1" toggle)
 	then
 		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
-		echo "1" > /tmp/toggle
+		echo "1" > toggle
 		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
 		echo -en "source ${PTH}/cfg/admin_cfg.sh\nsource ${PTH}/utils/colors.sh\nsource ${PTH}/utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
@@ -181,9 +181,9 @@ deploy() {
 		reboot
 	fi
 	sleep 10
-	if (grep "1" /tmp/toggle)
+	if (grep "1" toggle)
 	then
-		echo "2" >> /tmp/toggle
+		echo "2" >> toggle
 		echo "#####################################################################"
 		check_authorized_keys
 		if [ $res -eq 0 ]
@@ -217,7 +217,7 @@ deploy() {
 		sleep 5
 		reboot
 	fi
-	if (grep "2" /tmp/toggle)
+	if (grep "2" toggle)
 	then
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
 		echo -en "|-----------------------------------------|"
@@ -233,8 +233,9 @@ deploy() {
 		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|"
 		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|"
 		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|"
-		cp /tmp/getty@service /lib/systemd/system/getty@service
+		cp tmp/getty@service /lib/systemd/system/getty@service
 		cp /root/.bashrctmp /root/.bashrc
-		rm -rf /tmp/toggle
+		rm -rf toggle
+		rm -rf tmp
 	fi
 }
