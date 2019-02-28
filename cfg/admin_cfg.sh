@@ -216,7 +216,6 @@ deploy() {
 		echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
 		ssl_install
 		sleep 5
-		echo "3" >> toggle
 		reboot
 	fi
 	if !(grep "3" toggle)
