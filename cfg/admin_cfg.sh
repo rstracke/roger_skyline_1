@@ -163,23 +163,24 @@ cp res/default /etc/nginx/sites-enabled/default
 #==================================================================================================
 deploy() {
 
-	#if !(grep "1" /tmp/toggle)
-	#then
-	#	update_packages
-	#	echo -en "################${GREEN}Network configure${NORMAL}################\n"
-	#	configure_network
-	#	echo "1" > /tmp/toggle
-	#	PTH=$(pwd)
-	#	cp /root/.bashrc /root/.bashrctmp
-	#	echo -en "source ${PTH}/cfg/admin_cfg.sh\nsource ${PTH}/utils/colors.sh\nsource ${PTH}/utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
-	#	secs=$((1 * 10))
-	#	while [ $secs -gt 0 ]; do
-   	#		echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
-   	#		sleep 1
-   	#		: $((secs--))
-	#	done
-	#	reboot
-	#fi
+	if !(grep "1" /tmp/toggle)
+	then
+		update_packages
+		echo -en "################${GREEN}Network configure${NORMAL}################\n"
+		configure_network
+		echo "1" > /tmp/toggle
+		PTH=$(pwd)
+		cp /root/.bashrc /root/.bashrctmp
+		echo -en "source ${PTH}/cfg/admin_cfg.sh\nsource ${PTH}/utils/colors.sh\nsource ${PTH}/utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
+		secs=$((1 * 10))
+		while [ $secs -gt 0 ]; do
+   			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
+   			sleep 1
+   			: $((secs--))
+		done
+		reboot
+	fi
+	sleep 10
 	if (grep "1" /tmp/toggle)
 	then
 		echo "2" >> /tmp/toggle
