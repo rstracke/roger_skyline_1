@@ -181,7 +181,7 @@ deploy() {
 		reboot
 	fi
 	sleep 10
-	if (grep "1" toggle)
+	if !(grep "2" toggle)
 	then
 		echo "2" >> toggle
 		echo "#####################################################################"
@@ -217,8 +217,9 @@ deploy() {
 		sleep 5
 		reboot
 	fi
-	if (grep "2" toggle)
+	if !(grep "3" toggle)
 	then
+		echo "3" >> toggle
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
 		echo -en "|-----------------------------------------|"
 		echo -en "| SUDO User               | victor 	    |"
