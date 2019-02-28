@@ -165,7 +165,7 @@ deploy() {
 		echo "toggle" > tmp
 		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source ${PTH}/cfg/admin_cfg.sh\n deploy" >> /root/.bashrc
+		echo -en "source ${PTH}/cfg/admin_cfg.sh\ncd $PTH\ndeploy" >> /root/.bashrc
 		pwd
 		sleep 10
 		cat /root/.bashrc
@@ -178,7 +178,6 @@ deploy() {
 		done
 		reboot
 	fi
-	cd rs1
 	echo "#####################################################################"
 	pwd
 	#cp /root/.bashrctmp /root/.bashrc
