@@ -178,6 +178,7 @@ deploy() {
 		done
 		reboot
 	fi
+	cd rs1
 	echo "#####################################################################"
 	pwd
 	#cp /root/.bashrctmp /root/.bashrc
