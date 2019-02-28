@@ -27,6 +27,7 @@ case $retval in
 				ufw delete allow $CURRENT_PORT 
 				set_current_port $user_input
 				ufw allow $user_input
+				ufw reload
 				call_infobox "SSH Port is $user_input";;
 			3)
 				call_radio_menu "RootLogIn" ""
