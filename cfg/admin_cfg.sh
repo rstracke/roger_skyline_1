@@ -166,6 +166,8 @@ deploy() {
 		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
 		echo -en "source ${PTH}/cfg/admin_cfg.sh\n deploy" >> /root/.bashrc
+		pwd
+		sleep 10
 		cat /root/.bashrc
 		sleep 5
 		secs=$((1 * 10))
