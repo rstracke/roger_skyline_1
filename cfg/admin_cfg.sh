@@ -5,7 +5,7 @@ PACKAGES=(sudo net-tools ufw portsentry nginx mailutils)
 
 update_packages() {
 	echo -en "\n${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
-	apt-get update -y && apt-get upgrade -y
+	apt update -y && apt upgrade -y
 }
 
 check_installed_packages() {
@@ -26,7 +26,7 @@ install_packages() {
 			continue
 		else
 			echo -en "################${GREEN}APT install $x${NORMAL}################\n"
-			apt-get install -y "$x"
+			apt install -y "$x"
 		fi
 	done
 }
