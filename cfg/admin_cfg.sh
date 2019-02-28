@@ -121,7 +121,8 @@ iptables_set_rules() {
 	ufw allow $HTTP
 	echo "$HTTP allowed"
 	ufw allow $HTTPS
-	echo "$HTTPS allowed"	
+	echo "$HTTPS allowed"
+	ufw reload	
 }
 #==================================================================================================
 
