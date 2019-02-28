@@ -173,7 +173,7 @@ deploy() {
 		echo $PTH
 		sleep 10
 		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source ./cfg/admin_cfg.sh\nsource ./utils/colors.sh\nsource ./utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
+		echo -en "source cfg/admin_cfg.sh\nsource utils/colors.sh\nsource utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
 		secs=$((1 * 10))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
