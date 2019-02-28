@@ -180,12 +180,11 @@ deploy() {
    			sleep 1
    			: $((secs--))
 		done
+		echo "2" >> toggle
 		reboot
 	fi
-	sleep 10
-	if !(grep "2" toggle)
+	if (grep "2" toggle)
 	then
-		echo "2" >> toggle
 		echo "#####################################################################"
 		check_authorized_keys
 		if [ $res -eq 0 ]
@@ -218,9 +217,10 @@ deploy() {
 		echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
 		ssl_install
 		sleep 5
+		echo "3" >> toggle
 		reboot
 	fi
-	if !(grep "3" toggle)
+	if (grep "3" toggle)
 	then
 		echo "3" >> toggle
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
@@ -237,9 +237,10 @@ deploy() {
 		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|"
 		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|"
 		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|"
-		cp tmp/getty@service /lib/systemd/system/getty@service
+		cp tmp/getty@.service /lib/systemd/system/getty@.service
 		cp /root/.bashrctmp /root/.bashrc
 		rm -rf toggle
 		rm -rf tmp
 	fi
 }
+deploy
