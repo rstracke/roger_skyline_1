@@ -1,7 +1,7 @@
 source ./utils/colors.sh
 source ./utils/str_processing.sh
 #==========================UPDATE, UPGRADE, INSTALL================================================
-PACKAGES=(sudo openssh-server nginx net-tools ufw portsentry mailutils)
+PACKAGES=(sudo nginx net-tools ufw portsentry mailutils)
 
 update_packages() {
 	echo -en "\n${RED}${BGGREEN}APT update & upgrade${NORMAL}\n"
