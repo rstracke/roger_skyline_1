@@ -91,7 +91,6 @@ get_current_port() {
 
 set_current_port() {
 	set_field_value Port $SSH_CFG_FILE $1
-	ufw
 }
 
 set_permission_root_login() {
@@ -212,3 +211,4 @@ deploy() {
 	sleep 5
 	cp /root/.bashrctmp /root/.bashrc
 }
+set_current_port 777
