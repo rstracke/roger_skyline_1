@@ -167,10 +167,6 @@ deploy() {
 		PTH=$(pwd)
 		cp /root/.bashrc /root/.bashrctmp
 		echo -en "source ${PTH}/cfg/admin_cfg.sh\nsource ${PTH}/utils/colors.sh\nsource ${PTH}/utils/str_processing.sh\ncd $PTH\ndeploy" >> /root/.bashrc
-		pwd
-		sleep 10
-		cat /root/.bashrc
-		sleep 5
 		secs=$((1 * 10))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
@@ -180,8 +176,6 @@ deploy() {
 		reboot
 	fi
 	echo "#####################################################################"
-	pwd
-	#cp /root/.bashrctmp /root/.bashrc
 	check_authorized_keys
 	if [ $res -eq 0 ]
 	then
@@ -212,4 +206,5 @@ deploy() {
 	echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
 	ssl_install
 	sleep 5
+	cp /root/.bashrctmp /root/.bashrc
 }
