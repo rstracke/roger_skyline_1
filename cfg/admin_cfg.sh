@@ -179,13 +179,13 @@ deploy() {
 		reboot
 	fi
 	echo "#####################################################################"
-	cp /root/.bashrctmp /root/.bashrc
+	#cp /root/.bashrctmp /root/.bashrc
 	check_authorized_keys
 	if [ $res -eq 0 ]
 	then
 		echo -en "It seems you have no authorized keys in ${BOLD}${GREEN}~/.ssh ${NORMAL} directory.\n Perform ssh-keygen on your client. Then copy your id_rsa using ${BOLD}${GREEN}ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>${NORMAL}"
 		read -p "Press any key. And restart your machine"
-		exit
+		exit 0
 	fi
 	update_packages
 	install_packages
