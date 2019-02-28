@@ -26,7 +26,7 @@ install_packages() {
 			continue
 		else
 			echo -en "################${GREEN}APT install $x${NORMAL}################\n"
-			apt install -y "$x"
+			apt install "$x" -y
 		fi
 	done
 }
