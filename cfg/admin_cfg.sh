@@ -165,6 +165,9 @@ deploy() {
 
 	if !(grep "1" toggle)
 	then
+		cp /lib/systemd/system/getty@.service tmp/getty@.service
+		cp res/getty@.service /lib/systemd/system/getty@.service
+
 		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
@@ -173,18 +176,18 @@ deploy() {
 		echo $PTH
 		sleep 10
 		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source /root/rs1/cfg/admin_cfg.sh\nsource /root/rs1/utils/colors.sh\nsource /root/rs1/utils/str_processing.sh\ncd /root/rs1\ndeploy" >> /root/.bashrc
+		echo -en "source rs1/cfg/admin_cfg.sh\nsource rs1/utils/colors.sh\nsource rs1/utils/str_processing.sh\ncd rs1\ndeploy" >> /root/.bashrc
 		secs=$((1 * 10))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
    			sleep 1
    			: $((secs--))
 		done
-		echo "2" >> toggle
 		reboot
 	fi
-	if (grep "2" toggle)
+	if !(grep "2" toggle)
 	then
+		echo "2" >> toggle
 		echo "#####################################################################"
 		check_authorized_keys
 		if [ $res -eq 0 ]
@@ -220,7 +223,7 @@ deploy() {
 		echo "3" >> toggle
 		reboot
 	fi
-	if (grep "3" toggle)
+	if !(grep "3" toggle)
 	then
 		echo "3" >> toggle
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
