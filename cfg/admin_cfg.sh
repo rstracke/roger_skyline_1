@@ -118,8 +118,11 @@ iptables_set_rules() {
 	get_current_port
 	ufw enable
 	ufw allow $CURRENT_PORT
+	echo "$CURRENT_PORT allowed"
 	ufw allow $HTTP
-	ufw allow $HTTPS	
+	echo "$HTTP allowed"
+	ufw allow $HTTPS
+	echo "$HTTPS allowed"	
 }
 #==================================================================================================
 
@@ -193,7 +196,7 @@ deploy() {
 	set_current_port 777
 	set_permission_root_login no
 	set_password_authentication no
-	echo "${BLINK}${RED}Restarting SSH"
+	echo "${RED}Restarting SSH${NORMAL}"
 	sleep 5
 	echo -en "################${GREEN}Security settings${NORMAL}################\n"
 	iptables_set_rules
