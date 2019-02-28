@@ -174,7 +174,7 @@ deploy() {
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
    			sleep 1
-   			$((secs--))
+   			: $((secs--))
 		done
 		reboot
 	fi
