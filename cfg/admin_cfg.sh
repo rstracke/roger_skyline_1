@@ -16,9 +16,7 @@ check_installed_packages() {
 		result=0
 	fi
 }
-inst() {
-	apt install sudo net-tools ufw portsentry nginx mailutils -y
-}
+
 install_packages() {
 	for x in ${PACKAGES[@]}
 	do
@@ -167,6 +165,7 @@ deploy() {
 
 	if !(grep "toggle" tmp)
 	then
+		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
 		echo "toggle" > tmp
@@ -189,7 +188,6 @@ deploy() {
 		read -p "Press any key. And restart your machine"
 		exit 1
 	fi
-	update_packages
 	install_packages
 	echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
 	sudo_setup victor
@@ -214,4 +212,3 @@ deploy() {
 	sleep 5
 	cp /root/.bashrctmp /root/.bashrc
 }
-set_current_port 777

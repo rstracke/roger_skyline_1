@@ -28,8 +28,8 @@ case $retval in
 			0)
 				deploy;;
 			1)
-				update_packages
-				inst;;
+				install_packages
+				update_packages;;
 			2)	
 				call_menu_set_sudoer
 				is_user_exist $user_input
