@@ -16,7 +16,9 @@ check_installed_packages() {
 		result=0
 	fi
 }
-
+inst() {
+	apt install sudo net-tools ufw portsentry nginx mailutils -y
+}
 install_packages() {
 	for x in ${PACKAGES[@]}
 	do

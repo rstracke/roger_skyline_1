@@ -29,7 +29,7 @@ case $retval in
 				deploy;;
 			1)
 				update_packages
-				install_packages;;
+				inst;
 			2)	
 				call_menu_set_sudoer
 				is_user_exist $user_input
