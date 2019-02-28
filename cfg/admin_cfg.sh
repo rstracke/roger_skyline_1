@@ -165,18 +165,12 @@ deploy() {
 
 	if !(grep "1" toggle)
 	then
-		cp /lib/systemd/system/getty@.service tmp/getty@.service
-		cp res/getty@.service /lib/systemd/system/getty@.service
-
+		echo "FIRST PART"
+		sleep 5
 		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
 		echo "1" > toggle
-		PTH=$(pwd)
-		echo $PTH
-		sleep 10
-		cp /root/.bashrc /root/.bashrctmp
-		echo -en "source $PTH/cfg/admin_cfg.sh\nsource $PTH/utils/colors.sh\nsource $PTH/utils/str_processing.sh\ndeploy" >> /root/.bashrc
 		secs=$((1 * 10))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
@@ -187,6 +181,8 @@ deploy() {
 	fi
 	if !(grep "2" toggle)
 	then
+		echo "SECOND PART"
+		sleep 5
 		echo "2" >> toggle
 		echo "#####################################################################"
 		check_authorized_keys
@@ -225,6 +221,8 @@ deploy() {
 	fi
 	if !(grep "3" toggle)
 	then
+		echo "THIRD PART"
+		sleep 5
 		echo "3" >> toggle
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
 		echo -en "|-----------------------------------------|"
@@ -240,9 +238,6 @@ deploy() {
 		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|"
 		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|"
 		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|"
-		cp tmp/getty@.service /lib/systemd/system/getty@.service
-		cp /root/.bashrctmp /root/.bashrc
 		rm -rf toggle
-		rm -rf tmp
 	fi
 }
