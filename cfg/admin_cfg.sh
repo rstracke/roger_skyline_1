@@ -91,6 +91,7 @@ get_current_port() {
 
 set_current_port() {
 	set_field_value Port $SSH_CFG_FILE $1
+	ufw
 }
 
 set_permission_root_login() {

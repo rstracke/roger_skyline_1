@@ -23,7 +23,10 @@ case $retval in
 				call_infobox "SSH Port is 22";;
 			2)
 				call_menu_set_port "Enter SSH port number:"
+				get_current_port
+				ufw delete allow $CURRENT_PORT 
 				set_current_port $user_input
+				ufw allow $user_input
 				call_infobox "SSH Port is $user_input";;
 			3)
 				call_radio_menu "RootLogIn" ""
