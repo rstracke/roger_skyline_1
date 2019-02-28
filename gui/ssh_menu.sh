@@ -106,9 +106,6 @@ restart_ssh_network() {
 	call_infobox "Restarting SSH"
 	sleep 1
 	service ssh restart
-	call_infobox "Restarting network"
-	sleep 1
-	service networking restart
 	call_infobox "Complete"
 	sleep 1	
 }
