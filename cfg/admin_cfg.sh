@@ -179,6 +179,7 @@ deploy() {
 		reboot
 	fi
 	echo "#####################################################################"
+	pwd
 	#cp /root/.bashrctmp /root/.bashrc
 	check_authorized_keys
 	if [ $res -eq 0 ]
