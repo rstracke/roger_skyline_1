@@ -246,4 +246,3 @@ deploy() {
 		rm -rf tmp
 	fi
 }
-deploy
