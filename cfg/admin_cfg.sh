@@ -117,6 +117,7 @@ HTTPS="443"
 iptables_set_rules() {
 	get_current_port
 	ufw enable
+	ufw allow 22
 	ufw allow $CURRENT_PORT
 	echo "$CURRENT_PORT allowed"
 	ufw allow $HTTP
