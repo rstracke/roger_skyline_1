@@ -162,15 +162,14 @@ cp res/default /etc/nginx/sites-enabled/default
 }
 #==================================================================================================
 deploy() {
-
-	if !(grep "1" toggle)
+	if !(grep "1" toggle1)
 	then
 		echo "FIRST PART"
 		sleep 5
 		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
-		echo "1" > toggle
+		echo "1" > toggle1
 		secs=$((1 * 10))
 		while [ $secs -gt 0 ]; do
    			echo -ne "${BLINK}${RED}COMPUTER WILL RESTART IN >>> $secs\033[0K\r"
@@ -179,11 +178,11 @@ deploy() {
 		done
 		reboot
 	fi
-	if !(grep "2" toggle)
+	if !(grep "2" toggle2)
 	then
 		echo "SECOND PART"
 		sleep 5
-		echo "2" >> toggle
+		echo "2" > toggle2
 		echo "#####################################################################"
 		check_authorized_keys
 		if [ $res -eq 0 ]
@@ -192,7 +191,6 @@ deploy() {
 			read -p "Press any key. And restart your machine"
 			exit 1
 		fi
-		sleep 20
 		install_packages
 		echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
 		sudo_setup victor
@@ -218,11 +216,11 @@ deploy() {
 		sleep 5
 		reboot
 	fi
-	if !(grep "3" toggle)
+	if !(grep "3" toggle3)
 	then
 		echo "THIRD PART"
 		sleep 5
-		echo "3" >> toggle
+		echo "3" > toggle3
 		echo -en "				|DEPLOYMENT COMPLETE|		 "
 		echo -en "|-----------------------------------------|"
 		echo -en "| SUDO User               | victor 	    |"
