@@ -185,10 +185,10 @@ deploy() {
 		echo "SECOND PART"
 		echo "2" > /root/toggle2
 		echo "#####################################################################"
-		check_authorized_keys
 		flag=1
 		while [ $flag -eq 1 ]
 		do
+			check_authorized_keys
 			if [ $res -eq 0 ]
 			then
 				echo -en "It seems you have no authorized keys in ${BOLD}${GREEN}~/.ssh ${NORMAL} directory.\n Perform ssh-keygen on your client. Then copy your id_rsa using ${BOLD}${GREEN}ssh-copy-id -i <your_.ssh>/<your_key> <user_name>@<host_IP>${NORMAL}"
