@@ -167,7 +167,6 @@ deploy() {
 	if !(grep "1" /root/toggle1)
 	then
 		echo "FIRST PART"
-		sleep 5
 		update_packages
 		echo -en "################${GREEN}Network configure${NORMAL}################\n"
 		configure_network
@@ -184,7 +183,6 @@ deploy() {
 	if !(grep "2" /root/toggle2)
 	then
 		echo "SECOND PART"
-		sleep 5
 		echo "2" > /root/toggle2
 		echo "#####################################################################"
 		check_authorized_keys
@@ -198,33 +196,27 @@ deploy() {
 		install_packages
 		echo -en "################${GREEN}Making user sudoer${NORMAL}################\n"
 		sudo_setup victor
-		sleep 5
 		echo -en "################${GREEN}Setting SSH Port up${NORMAL}################\n"
 		set_current_port 777
 		set_permission_root_login no
 		set_password_authentication no
 		service ssh restart
 		echo -en "${RED}${BLINK}Restarting SSH${NORMAL}"
-		sleep 5
 		echo -en "################${GREEN}Security settings${NORMAL}################\n"
 		iptables_set_rules
 		ddos_protect
 		portscan_protect
-		sleep 5
 		echo -en "################${GREEN}SCHEDULE Configure${NORMAL}################\n"
 		copy_scripts
 		to_crontab
-		sleep 5
 		echo -en "################${GREEN}SSL Installation${NORMAL}################\n"
 		ssl_install
-		sleep 5
 		reboot
 		exit
 	fi
 	if !(grep "3" /root/toggle3)
 	then
 		echo "THIRD PART"
-		sleep 5
 		echo "3" > /root/toggle3
 		echo -en "				|DEPLOYMENT COMPLETE|		 \n"
 		echo -en "|-----------------------------------------|\n"
