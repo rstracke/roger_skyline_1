@@ -3,4 +3,5 @@ wget https://github.com/rstracke/roger_skyline_1/archive/master.zip
 unzip master.zip
 mkdir /root/rs
 cp -r roger_skyline_1-master/* /root/rs
+cd /root/rs
 ./main.sh

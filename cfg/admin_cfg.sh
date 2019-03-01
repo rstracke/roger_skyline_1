@@ -1,3 +1,4 @@
+
 source ./utils/colors.sh
 source ./utils/str_processing.sh
 #==========================UPDATE, UPGRADE, INSTALL================================================
@@ -224,20 +225,20 @@ deploy() {
 		echo "THIRD PART"
 		sleep 5
 		echo "3" > /root/toggle3
-		echo -en "				|DEPLOYMENT COMPLETE|		 "
-		echo -en "|-----------------------------------------|"
-		echo -en "| SUDO User               | victor 	    |"
-		echo -en "| IP ADDRESS              | $IP 			|"
-		echo -en "| NETMASK                 | $NETMASK 		|"
-		echo -en "| INTERFACE               | $IFACE 		|"
-		echo -en "| SSH PORT                | $CURRENT_PORT |"
-		echo -en "| PERMIT ROOT LOGIN       | NO 			|"
-		echo -en "| PASSWORD AUTHENTICATION | NO 			|"
-		echo -en "------------------------------------------|"	
-		echo -en "| UFW RULES: 				| ${GREEN}SET${NORMAL} 			|"
-		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|"
-		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|"
-		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|"
+		echo -en "				|DEPLOYMENT COMPLETE|		 \n"
+		echo -en "|-----------------------------------------|\n"
+		echo -en "| SUDO User               | victor 	    |\n"
+		echo -en "| IP ADDRESS              | $IP 			|\n"
+		echo -en "| NETMASK                 | $NETMASK 		|\n"
+		echo -en "| INTERFACE               | $IFACE 		|\n"
+		echo -en "| SSH PORT                | $CURRENT_PORT |\n"
+		echo -en "| PERMIT ROOT LOGIN       | NO 			|\n"
+		echo -en "| PASSWORD AUTHENTICATION | NO 			|\n"
+		echo -en "------------------------------------------|\n"	
+		echo -en "| UFW RULES: 				| ${GREEN}SET${NORMAL} 			|\n"
+		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|\n"
+		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|\n"
+		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|\n"
 		read -p "Press any key"
 		rm -rf /root/toggle1
 		rm -rf /root/toggle2
