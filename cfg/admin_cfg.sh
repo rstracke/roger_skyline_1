@@ -177,6 +177,7 @@ deploy() {
    			: $((secs--))
 		done
 		reboot
+		exit
 	fi
 	if !(grep "2" toggle2)
 	then
@@ -215,6 +216,7 @@ deploy() {
 		ssl_install
 		sleep 5
 		reboot
+		exit
 	fi
 	if !(grep "3" toggle3)
 	then
