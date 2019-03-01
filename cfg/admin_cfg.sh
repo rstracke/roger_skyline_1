@@ -238,6 +238,7 @@ deploy() {
 		echo -en "| PORTSENTRY 				| ${GREEN}SET${NORMAL} 			|"
 		echo -en "| NGINX 					| ${GREEN}SET${NORMAL}  		|"
 		echo -en "| SSL CERTIFICATES		| ${GREEN}SET${NORMAL}  		|"
+		read -p "Press any key"
 		rm -rf toggle
 	fi
 }
