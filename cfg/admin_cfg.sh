@@ -56,7 +56,7 @@ echo -en "${RED}User ${GREEN}$1 ${RED} get SUDO rights${NORMAL}\n"
 #==================================================================================================
 
 #==========================SET NETWORK=============================================================
-IP=$(ifconfig enp0s3 | awk '/inet / {print $2}')
+IP=$(hostname -I)
 NETMASK="255.255.255.252"
 IFACE="enp0s3"
 CONTENT="# This file describes the network interfaces available on your system\n
