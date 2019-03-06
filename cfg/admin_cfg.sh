@@ -56,9 +56,9 @@ echo -en "${RED}User ${GREEN}$1 ${RED} get SUDO rights${NORMAL}\n"
 #==================================================================================================
 
 #==========================SET NETWORK=============================================================
-IP=$(hostname -I)
+IP="192.168.99.2"
 NETMASK="255.255.255.252"
-IFACE="enp0s3"
+IFACE="enp0s8"
 CONTENT="# This file describes the network interfaces available on your system\n
 # and how to activate them. For more information, see interfaces(5).\n
 \n
@@ -69,6 +69,9 @@ auto lo\n
 iface lo inet loopback\n
 \n
 # The primary network interface\n
+allow-hotplug enp0s3\n
+iface enp0s3 inet dhcp\n
+\n
 allow-hotplug $IFACE\n
 iface $IFACE inet static\n
 address $IP\n
